@@ -1,0 +1,191 @@
+import acc: lib.ft3.account;
+import core: lib.ft3.core;
+import lib.ft3.ft3_basic_dev;
+
+//to get a better postchain image, I'm adding random things
+//ChoccySwap dex on Chromia
+//Yeah I'm adding these comments only to have a better chain pfp
+//The following \ns will be for the same reason
+
+
+
+
+
+
+
+
+entity pair{
+    key asset1:byte_array, asset2:byte_array;
+    mutable amount1: integer;
+    mutable amount2: integer;
+    key lp_token: core.asset;
+    mutable lp_supply:integer;
+}
+
+function sqrt(x: decimal): decimal {
+    require(x >= 0);
+    var w=1.0;
+    while (w*w < x) w*=10;
+
+    var r=0.0;
+    while (r*r != x and w>0) {
+        while ((r+w)*(r+w) <= x) r+=w;
+        w/=10;
+    }
+    return r;
+}
+
+query get_user_number() : integer{
+  return (acc.account@*{}).size();
+}
+
+query get_pair_number() : integer{
+  return (pair@*{}).size();
+}
+
+query get_tx_number() : integer{
+  return (transaction@*{}).size();
+}
+
+query get_circulating_value_in(asset_ID: byte_array): decimal{
+  var tot_amount = 0;
+  for (p in pair @* {}) {
+    tot_amount += integer(p.amount1 * get_theoretical_price(asset_ID, p.asset1));
+    tot_amount += integer(p.amount2 * get_theoretical_price(asset_ID, p.asset2));
+  }
+  return tot_amount;
+}
+
+function get_theoretical_price(id_numerator:byte_array, id_denominator:byte_array): decimal{ //0 if pool for these coins doesn't exist
+  if (id_numerator == id_denominator){return 1;}
+  var p = pair @? {.asset1 == id_numerator, .asset2 == id_denominator};
+  if (p??){
+    return p.amount1/p.amount2;
+  } else {
+    p = pair @? {.asset2 == id_numerator, .asset1 == id_denominator};
+    if (p??){
+      return p.amount2/p.amount1;
+    }
+  }
+  return 0;//TODO: should we add routing through different pools? Should we calc selling price instead? (selling 1000 in a pool of 1000 would give half the value)
+}
+
+query get_pair(a1:byte_array, a2:byte_array): text{
+  var p = pair@{.asset1 == a1, .asset2 == a2};
+  return '{"lp_id": "%s", '.format(p.lp_token.id.to_hex())+'"lp_supply": %d, '.format(p.lp_supply)+'"amount1": %d, '.format(p.amount1)+'"amount2": %d}'.format(p.amount2);
+}
+
+operation add_liq(_first:byte_array, _second:byte_array, _amount1:integer, _amount2:integer, auth_id:byte_array, acc_id:byte_array){
+    val account = acc.auth_and_log(acc_id, auth_id, ["T"]);
+    require(_amount1>0 and _amount2>0);
+    var first = _first; var second = _second; var amount1 = _amount1; var amount2 = _amount2;
+    var p = pair@?{.asset1==first, .asset2==second};
+    if (not p??) {
+        p=pair@?{.asset1==second, .asset2==first};
+        if (not p??) {
+
+
+            //This could be a separate op "create_liq" but calling ops inside ops isn't allowed outside REPL. The first three requires would be needed if separated
+            //val account = acc.auth_and_log(acc_id, auth_id, ["T"]);
+            //require(not pair@?{.asset1==first, .asset2==second}??);
+            //require(not pair@?{.asset1==second, .asset2==first}??);
+            //require(amount1>0 and amount2>0);
+            val start_lp = integer(sqrt(amount1*amount2));
+            require(start_lp >= 1000);
+            val bal1 = core.balance @ {.account.id == account.id,.asset.id == first};
+            val bal2 = core.balance @ {.account.id == account.id,.asset.id == second};
+            require(bal1.amount>=amount1 and bal2.amount>=amount2);
+            bal1.amount-=amount1;bal2.amount-=amount2;//should trigger an update
+            val lp = core.register_asset(core.asset@{.id==first}.id+"-"+core.asset@{.id==second}.id+" LP", chain_context.blockchain_rid);
+            create pair(asset1=first, asset2=second, amount1=amount1, amount2=amount2, lp_token=lp, lp_supply=start_lp);//, k=amount1*amount2);
+            core.ensure_balance(account, lp).amount = start_lp - 1000;//it should trigger an update; -1000 to have min liq (uniswapv2 wp)
+
+
+
+
+
+            return; //Don't add liq twice when creating a pool
+        }
+        first=second;   second=_first;
+        amount1=amount2;amount2=_amount1;
+    }
+    val bal1 = core.balance @ {.account.id == account.id,.asset.id == first};
+    val bal2 = core.balance @ {.account.id == account.id,.asset.id == second};
+
+    val k1=decimal(amount1)/decimal(p.amount1);val k2=decimal(amount2)/decimal(p.amount2);
+    if (k1 == k2){
+
+    } else if (k1 < k2){
+        amount2=integer(k1*p.amount2);
+    } else if (k1>k2){
+        amount1=integer(k2*p.amount2);
+    }
+    require(bal1.amount >= amount1 and bal2.amount >= amount2);
+
+    bal1.amount -= amount1;  bal2.amount -= amount2; //should trigger an update
+    p.amount1 += amount1; p.amount2 += amount2;
+    val lp_bal = core.ensure_balance(account, p.lp_token);
+    val added_liq = integer(p.lp_supply*min(k1, k2));
+    lp_bal.amount += added_liq;p.lp_supply += added_liq;
+}
+
+operation remove_liq(_first:byte_array, _second:byte_array, _amount1:integer, _amount2:integer, auth_id:byte_array, acc_id:byte_array){
+    val account = acc.auth_and_log(acc_id, auth_id, ["T"]);
+    require(_amount1>0 and _amount2>0);
+    var first = _first; var second = _second; var amount1 = _amount1; var amount2 = _amount2;
+    var p = pair@?{.asset1==first, .asset2==second};
+    if (not p??) {
+        p=pair@{.asset1==second, .asset2==first};
+        first=second;second=_first;
+        amount1=amount2;amount2=_amount1;
+    }
+    val bal1 = core.ensure_balance(account, core.asset@{.id==first});
+    val bal2 = core.ensure_balance(account, core.asset@{.id==second});
+    val lp_bal = core.balance @ {.account.id == account.id,.asset.id == p.lp_token.id};
+
+    val lp1 = integer(amount1*p.lp_supply/p.amount1);  val lp2 = integer(amount2*p.lp_supply/p.amount2);
+    var lp = 0;
+    if (lp1 > lp2) {
+        lp = lp2;
+        amount1=lp*p.amount1/p.lp_supply;
+    } else {
+        lp = lp1;
+        amount2=lp*p.amount2/p.lp_supply;
+    }
+
+    require(lp_bal.amount >= lp);
+    lp_bal.amount -= lp;
+
+    p.amount1-=amount1; p.amount2-=amount2;      //
+    bal1.amount+=amount1;  bal2.amount+=amount2;//should trigger an update
+    p.lp_supply -= lp;                         //
+}
+
+operation swap(from:byte_array, to:byte_array, amount:integer, amount_min:integer, deadline:timestamp, auth_id:byte_array, acc_id:byte_array){
+    val account = acc.auth_and_log(acc_id, auth_id, ["T"]);
+    require(amount>0);
+    var p = pair@?{.asset1==from, .asset2==to};
+    var inverted = false;
+    if (not p??) {
+        p=pair@{.asset1==to, .asset2==from};
+        inverted=true;
+    }
+    val from_bal = core.balance @ {.account.id == account.id,.asset.id == from};
+    val to_bal = core.ensure_balance(account, core.asset@{.id==to});
+    require(from_bal.amount >= amount);
+    from_bal.amount -= amount;
+    var to_am = 0;
+    val k = p.amount1*p.amount2;
+    if (inverted) {
+        p.amount2 += amount;
+        to_am = integer(((p.amount1 - k/p.amount2)*997)/1000);
+        p.amount1 -= to_am;
+    } else {
+        p.amount1 += amount;
+        to_am = integer(((p.amount2 - k/p.amount1)*997)/1000);
+        p.amount2 -= to_am;
+    }
+    require(to_am>0 and to_am>amount_min);
+    to_bal.amount += to_am;
+    require(op_context.last_block_time<=deadline);
+}
