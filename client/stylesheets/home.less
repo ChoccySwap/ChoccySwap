@@ -1,0 +1,308 @@
+@rosso: #cd4d46;
+@biscotto: #d08d4d;
+@nero: #351a1b;
+@bianco: #fff2da;
+@panna: #fffdd2;
+@cioccolato: #8a5335;
+
+@import "animations.less";
+
+@font-face {
+    font-family: 'poetsenone';
+    src: url('../fonts/poetsenone-webfont.woff2') format('woff2'),
+         url('../fonts/poetsenone-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+* {
+  font-family: 'poetsenone';
+}
+
+a:not(#launch-btn):not(#logo-link){
+  color: @nero;
+  transition: all 0.5s;
+  text-decoration: none;
+  &:hover{
+    color: @panna;
+    border-bottom: @panna solid 3px;
+  }
+}
+
+body{
+  display: flex;
+  margin: 0;
+  overflow-x: hidden;
+  background-image:url(../img/backgroundmobile.svg);
+  background-attachment:fixed;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-color: @nero;
+  font-size: 1vw;
+  flex-direction: column;
+}
+
+#bar{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  width: 100vw;
+  height: 9vh;
+  background-color: @cioccolato;
+  z-index: 10;
+  &>div{
+    margin: 0 2%;
+  }
+  #name{
+    margin: 0 auto 0 2%;
+    font-size: 300%;
+    color: @nero;
+    text-shadow: -3px 3px 0 @biscotto,
+                  3px 3px 0 @biscotto,
+                 3px -3px 0 @biscotto,
+                -3px -3px 0 @biscotto,
+                 3px 0 0 @biscotto,
+                 -3px 0 0 @biscotto,
+                0 3px 0 @biscotto,
+                0 -3px 0 @biscotto;
+  }
+}
+
+#logo{
+  a{
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #bd7607;
+    border-radius: 10vmax;
+    border: @panna solid 3px;
+    height: 6vh;
+    width: 6vh;
+    img{
+      height: 4.1vh;
+      width: 4.1vh;
+      padding: 100%;
+    }
+  }
+}
+
+#launch{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 8vw;
+  height: 4vh;
+  a{
+    text-decoration: none;
+    padding: 9%;
+    width: 15vw;
+  }
+  .blob-btn__inner {
+    background-color: @nero;
+  }
+  .blob-btn {
+    color: @panna;
+    &:before {
+      border: 0.2% solid @biscotto;
+    }
+    &:hover {
+   	 color: @biscotto;
+    }
+  }
+  .blob-btn__blob {
+    background-color: @panna;
+  }
+}
+
+#top{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  #title-logo{
+    img{
+    width: 47vh;
+    height: 47vh;
+    }
+  }
+  #title{
+    margin: 0;
+    text-align: center;
+    font-size: 800%;
+    color: @nero;
+    text-shadow: -3px 3px 0 @biscotto,
+                  3px 3px 0 @biscotto,
+                 3px -3px 0 @biscotto,
+                -3px -3px 0 @biscotto,
+                 3px 0 0 @biscotto,
+                 -3px 0 0 @biscotto,
+                0 3px 0 @biscotto,
+                0 -3px 0 @biscotto;
+  }
+  #sub-title{
+    color: @biscotto;
+    font-size: 200%;
+    text-align: center;
+  }
+}
+
+#center{
+  justify-content: center;
+  display:flex;
+  width: 100vw;
+  &>div{
+    justify-content: center;
+    align-items: center;
+    display:flex;
+    flex-direction: column;
+    width: 40vw;
+    background-color: @cioccolato;
+    color: @panna;
+    border: @panna solid 6px;
+    margin: 0 3vmax;
+    border-radius: 3vmax;
+    h3{
+      font-size: 150%;
+      margin: 0;
+      text-align: center;
+    }
+    p {
+      font-size: 350%;
+      margin: 1vmax;
+      color: @rosso;
+    }
+    img{
+      margin: 5%;
+      width: 10vh;
+      height: 10h;
+    }
+  }
+}
+
+#menu{
+  display: flex;
+  flex-direction: column;
+  color:@rosso;
+  font-size: 525%;
+  text-align: center;
+  justify-content:center;
+  margin: 15vh 0 30vh 0;
+  background-color: #f5deb3;
+  background-image: url("../img/menu-bg.svg");
+  background-repeat: no-repeat;
+  background-size: 86% 100%;
+  background-position: center;
+  padding: 2vh 0;
+  h3{
+    margin: 2vh;
+  }
+  #menu-scroll{
+    overflow: hidden;
+    width: 91vw;
+    scrollbar-color: transparent transparent;
+    &::-webkit-scrollbar{
+      display: none;
+    }
+    #movable{
+      display: flex;
+      transition: transform 0.5s;
+      height: 71vh;
+      &>div{
+        flex: 0 0 auto;
+        padding: 3%;
+        width: 27vw;
+        margin: 1% 2%;
+        transition: opacity 0.5s, font-size 0.5s, margin 0.5s;
+        &.empty{
+          border: transparent solid 1vw;
+        }
+        &:not(.empty){
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          background-color: @cioccolato;
+          border-radius: 3vmax;
+          color: @panna;
+          font-size: 50%;
+          border: @panna solid 1vw;
+          &.mini{
+            font-size: 25%;
+            opacity: 50%;
+            align-self: center;
+            margin: 10vh 2%;
+            img{
+              width: 12vh;
+              height: 12vh;
+            }
+          }
+        }
+        img{
+          width: 25vh;
+          height: 25vh;
+          transition: width 0.5s, height 0.5s;
+        }
+        h4{
+          margin: 0;
+          border-bottom: @nero solid 4px;
+          display: inline-block;
+        }
+        p{
+          color: @nero;
+          font-size: 60%;
+        }
+      }
+    }
+  }
+}
+
+#buttons{
+  display: flex;
+  margin-bottom: 3vh;
+  button {
+    background-color: @cioccolato;
+    color: @nero;
+    border: none;
+    font-size: 100%;
+    width: 4vw;
+    text-align: center;
+    transition: color ease 0.2s, background-color ease 0.2s;
+    &:hover{
+      color: @panna;
+      background-color: @nero;
+    }
+    &.inactive{
+      color: @cioccolato;
+      background-color: @cioccolato;
+    }
+  }
+  #scroll-left{
+    border-radius:  1.2vw 0 0 1.2vw;
+  }
+  #scroll-right{
+    border-radius:  0 1.2vw 1.2vw 0;
+  }
+}
+
+#end {
+  border-image: url("../img/border2.svg") 120 / 30px / 15px round;
+  background-color: @cioccolato;
+  width: 100vw;
+  height: 30vh;
+  display: flex;
+  justify-content: space-around;
+  h5{
+    color: @biscotto;
+    font-size: 200%;
+    margin: 1vh;
+  }
+  li{
+    font-size: 150%;
+  }
+}
+svg{
+  position: absolute;
+}

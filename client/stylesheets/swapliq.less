@@ -1,0 +1,213 @@
+#body{
+  flex: 1 1 auto;
+  min-height: 300px;
+  display: flex;
+  align-items: center;
+  z-index: 0;
+  transition: transform 1s cubic-bezier(.31,-0.56,.65,1.6);
+  &.pool{
+    transform: translateX(-100%);
+  }
+}
+
+#swap, #pool {
+  display: flex;
+  background-color: @nero;
+  border: @biscotto solid 5px;
+  width: 34%;
+  border-radius: 3vmax;
+  flex-flow: column;
+  flex: 0 0 auto;
+  margin: 0 33% 6% 33%;
+}
+
+.sett-div{
+  flex: 0 0 25%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  #settings-button {
+    border-radius: 50%;
+    background-color: @panna;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3.5vmax;
+    height: 3.5vmax;
+    img {
+      width: 2.5vmax;
+      height: 2.5vmax;
+    }
+  }
+}
+
+#swap-label, #liq-label {
+  font-size: 360%;
+  flex: 1 1 auto;
+  color: @panna;
+  text-align: center;
+  margin: 0;
+}
+
+#swap-boxes, #liq-boxes{
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  color: @nero;
+  .input-wrapper p{
+    color: fade(@panna, 70%);
+    margin: 2% 11% -4% 0;
+    text-align: right;
+  }
+  #swap-switch{
+    align-self: center;
+    button{
+      background-color: @panna;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 4.5vmax;
+      height: 4.5vmax;
+      img{
+        width: 3.5vmax;
+        height: 3.5vmax;
+      }
+    }
+  }
+  .inputs{
+    background-color: @panna;
+    border-radius: 30vmax;
+    display:flex;
+    padding: 3%;
+    margin: 4%;
+    button{
+      border-radius: 1vmax;
+      font-size: 88%;
+      color: @nero;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 3.5vmax;
+      height: 3.5vmax;
+      img{
+        width: 2.7vmax;
+        height: 2.7vmax;
+      }
+      .empty{
+        padding: 2%;
+      }
+    }
+    input{
+      outline: none;
+      background-color: inherit;
+      color: @nero;
+      border: none;
+      flex: 1 1 auto;
+      font-size: 150%;
+      &::placeholder{
+        color: fade(@nero, 70%);
+      }
+      &:invalid{
+        border: @rosso solid 2px;
+      }
+    }
+  }
+}
+
+
+#swap-settings, #liq-settings {
+  display: flex;
+  margin-top: 4%;
+}
+
+#settings-menu{
+  color: @panna;
+  position: absolute;
+  padding: 1% 1% 2% 10%;
+  transform: translate(43%, -50%);
+  font-size: 106%;
+  left: 50%;
+  top: 50%;
+  z-index: -1;
+  border: solid @biscotto 15px;
+  border-image: url("../img/border-light.svg") 125 / 30px / 15px round;
+  background-color: @biscotto;
+  display: flex;
+  flex-flow: column;
+  &.hidden{
+    transform: translate(-50%, -50%);
+  }
+  .inputs{
+    background-color: @panna;
+    border-radius: 30vmax;
+    display:flex;
+    padding: 3%;
+    margin: 4%;
+    border: @nero solid 2px;
+    span {
+      background-color: inherit;
+      color: @nero;
+      font-size: 95%;
+    }
+    input{
+      outline: none;
+      background-color: inherit;
+      color: @nero;
+      border: none;
+      flex: 1 0 4em;
+      width: 4em;
+      font-size: 95%;
+      &::placeholder{
+        color: fade(@nero, 70%);
+      }
+    }
+  }
+  #risky{
+    display: flex;
+    align-items: center;
+    margin-top: 5%;
+    input{
+      -webkit-appearance: none;
+      appearance: none;
+      border: none;
+      border-radius: 50%;
+      background-color: @panna;
+      width: 1vw;
+      height: 1vw;
+      margin-right: 0.5vw;
+      border: @nero solid 2px;
+      &:checked{
+        background-color: @rosso;
+      }
+    }
+  }
+}
+
+#swap-button, #liq-buttons {
+  padding: 0 6% 6% 6%;
+  display: flex;
+  .liqs{
+    margin: 2%;
+    flex: 1 1 1px;
+  }
+  div{
+    flex: 1 1 auto;
+  }
+  button{
+    padding: 6% 12% 6% 12%;
+    font-size: 150%;
+    flex: 1 1 auto;
+  }
+}
+
+.label p{
+    color: @panna;
+    margin: -1% 0 2% 4%;
+    span{
+      color: #ff0;
+      span{
+        color: saturate(@rosso, 80%);
+      }
+    }
+}

@@ -1,0 +1,225 @@
+<!doctype html>
+<html translate="no">
+
+  <head>
+    <meta charset="utf-8" />
+    <title>ChoccySwap</title>
+    <meta name="description" content="Swap or provide liquidity on Chromia" />
+    <link rel="icon" href="img/logochoccy.svg">
+    <link rel=”mask-icon” href=”img/mask-icon.svg” color="#fff2da">
+    <link rel="apple-touch-icon" sizes="512x512" href="img/logo512.png" />
+    <meta name="theme-color" content="#fff2da">
+    <link rel="manifest" href="manifest.json">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/home.css" />
+    <script src="scripts/hc.js"></script>
+		<script src="scripts/home.js"></script>
+  </head>
+
+  <svg xmlns="http://www.w3.org/2000/svg" version="1.1">
+    <defs>
+      <filter id="goo">
+        <feGaussianBlur in="SourceGraphic" result="blur" stdDeviation="5"></feGaussianBlur>
+        <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 21 -7" result="goo"></feColorMatrix>
+        <feBlend in2="goo" in="SourceGraphic" result="mix"></feBlend>
+      </filter>
+    </defs>
+  </svg>
+
+  <body onload="load()">
+    <div id="bar">
+      <div id="logo">
+        <a id="logo-link" href="#">
+          <img src="img/logochoccy.svg" alt="logo" class="jump" />
+        </a>
+      </div>
+      <div id="name">
+        ChoccySwap
+      </div>
+      <div id="info-link" class="mobilemove">
+        <a href="#menu">
+          Services
+        </a>
+      </div>
+      <div id="comm-link" class="mobilemove">
+        <a href="#socials">
+          Community
+        </a>
+      </div>
+      <!--div id="dao-link" class="mobilemove">
+        <a href="dao.html">
+          Governance
+        </a>
+      </div>
+      <div id="doc-link" class="mobilemove">
+        <a href="docs.html">
+          Docs
+        </a>
+      </div-->
+      <div id="launch" class="buttons blob">
+        <a id="launch-btn"  href="/swap.html" class="blob-btn blob" type="button">
+          <p class="blob">Launch App</p>
+          <span class="blob-btn__inner blob">
+            <span class="blob-btn__blobs blob">
+              <span class="blob-btn__blob blob"></span>
+              <span class="blob-btn__blob blob"></span>
+              <span class="blob-btn__blob blob"></span>
+              <span class="blob-btn__blob blob"></span>
+            </span>
+          </span>
+        </a>
+        <br/>
+      </div>
+    </div>
+    <div id="top">
+      <div id="title-logo">
+        <img src="img/logochoccy.svg" alt="logo" />
+      </div>
+      <div>
+        <h1 id="title">
+          ChoccySwap
+        </h1>
+        <h2 id="sub-title">
+          Swap and provide liquidity on Chromia
+        </h2>
+      </div>
+    </div>
+    <div id="center">
+      <div id="users">
+        <img src="../img/users.svg"/>
+        <h3>User on the platform</h3>
+        <p>0</p>
+      </div>
+      <div id="assets">
+        <img src="../img/assets.svg"/>
+        <h3>Assets registered</h3>
+        <p>0</p>
+      </div>
+      <div id="trades">
+        <img src="../img/trades.svg"/>
+        <h3>Total trades</h3>
+        <p>0</p>
+      </div>
+      <div id="value">
+        <img src="../img/tokens.svg"/>
+        <h3>Circulating value<br>(in CHR)</h3>
+        <p>0</p>
+      </div>
+      <div id="pairs">
+        <img src="../img/pairs.svg"/>
+        <h3>Total pairs</h3>
+        <p>0</p>
+      </div>
+    </div>
+    <div id="menu">
+      <h3>
+        ~Menu~
+      </h3>
+      <div id="buttons">
+        <button id="scroll-left"><</button>
+        <div id="menu-scroll">
+
+          <div id="movable">
+
+            <div class="empty"></div>
+            <div id="swap-help">
+              <img src="../img/chocolate.svg"/>
+              <h4>
+                Hot Chocolate
+              </h4>
+              <p>Based on the Uniswap v2 protocol, you can create chocolate pools, add and remove liquidity to them, and swap your assets!</p>
+            </div>
+            <div id="skip-confirm">
+              <img src="../img/chilichocolate.svg"/>
+              <h4>
+                Chili Chocolate
+              </h4>
+              <p>Don't burn your tongue! If you select the option to skip confirmations you won't be asked to sign your transactions.
+                This means that the swap will automatically go through!</p>
+            </div>
+            <div id="rewards">
+              <img src="../img/marshmallowchocolate.svg"/>
+              <h4>
+                Added<br>Marshmallows
+              </h4>
+              <p>All liquidity providers will get 0.3% of all transactions going through their choccy pools!</p>
+            </div>
+            <div id="no-token">
+              <img src="../img/coinchocolate.svg"/>
+              <h4>
+                Chocolate Coins
+              </h4>
+              <p>We have a governance token! Participate in community decisions by voting proposals using Choccy Tokens (CCY)!</p>
+            </div>
+            <div id="roadmap">
+              <img src="../img/newchocolate.svg"/>
+              <h4>
+                Newest Recipes
+              </h4>
+              <p>Based on adoption, we're gonna add more functions (like loans and concentrated liquidity: they can't be added until there is enough liquidity for them!)</p>
+            </div>
+            <div class="empty"></div>
+
+          </div>
+
+        </div>
+        <button id="scroll-right">></button>
+      </div>
+    </div>
+    <div id="end">
+      <div>
+        <h5>
+          Collaborators
+        </h5>
+        <ul>
+          <li> ChromaWay </li>
+        </ul>
+      </div>
+      <div>
+        <h5>
+          Developers
+        </h5>
+        <ul>
+          <li> <a href="tg://resolve?domain=franzs_crypto">Franz</a> </li>
+          <li> <a href="tg://resolve?domain=sleeepy_penguin">SleepyPenguin</a></li>
+        </ul>
+      </div>
+      <div id="socials">
+        <h5>
+          Socials
+        </h5>
+      <ul>
+        <li>
+          <a href="tg://resolve?domain=ChoccySwap">
+            <img/>
+            Telegram
+          </a>
+        </li>
+        <li>
+          <a href="https://twitter.com/ChoccySwap">
+            <img/>
+            Twitter
+          </a>
+        </li>
+        <li>
+          <a href="discord.com/ChoccySwap">
+            <img/>
+            Discord
+          </a>
+        </li>
+      </ul>
+      </div>
+    </div>
+  </body>
+
+  <nav id="ham-nav" hidden>
+    <!-- (B) THE HAMBURGER -->
+    <label for="hamburger">&#9776;</label>
+    <input type="checkbox" id="hamburger"/>
+
+    <!-- (C) MENU ITEMS -->
+    <div id="ham-items">
+    </div>
+  </nav>
+
+</html>

@@ -1,0 +1,210 @@
+#swap-switch img:hover{
+  transform: rotate(360deg);
+}
+#swap-switch img{
+  transition: transform 1s cubic-bezier(.31,-0.56,.65,1.6);
+}
+#settings-button img:hover{
+  transform: rotate(360deg);
+}
+#settings-button img{
+  transition: transform 1s cubic-bezier(.31,-0.56,.65,1.6);
+}
+
+#settings-menu{
+  transition: transform 0.5s cubic-bezier(.82,.33,.15,.79);
+}
+
+@keyframes jump{
+    0%{
+      transform: translate(0%,0%);
+    }
+    //25%{
+      //transform: translate(-50%,-55%);
+    //}
+    50%{
+      transform: translate(0%,-5%);
+    }
+    //75%{
+    //  transform: translate(-50%,-55%);
+    //}
+    100%{
+      transform: translate(0%,0%);
+    }
+}
+
+.jump:hover{
+    animation-name: jump;
+    animation-duration: 0.3s;
+    animation-timing-function: cubic-bezier(.69,0,0,.69);
+}
+
+//###########################BLOB ANIMATION####################################
+.blob, .blob:before, .blob:after {
+	 box-sizing: border-box;
+	 margin: 0;
+	 padding: 0;
+}
+
+.buttons {
+	 text-align: center;
+	 border-radius: 30px;
+}
+ .blob-btn {
+	 z-index: 1;
+	 position: relative;
+	 //margin-bottom: 30px;
+	 text-align: center;
+	 color: @nero;
+	 font-weight: bold;
+	 background-color: transparent;
+	 outline: none;
+	 border: none;
+	 transition: color 0.5s;
+	 border-radius: 3vmax;
+   //margin-top: 10%;
+}
+ .blob-btn:before {
+	 content: "";
+	 z-index: 1;
+	 position: absolute;
+	 left: 0;
+	 top: 0;
+	 width: 100%;
+	 height: 100%;
+	 border: 0.2% solid @cioccolato;
+	 border-radius: 30px;
+}
+ .blob-btn:after {
+	 content: "";
+	 z-index: -2;
+	 position: absolute;
+	 left: 0.3%;
+	 top: 0.3%;
+	 width: 100%;
+	 height: 100%;
+	 transition: all 0.3s 0.2s;
+	 border-radius: 30px;
+}
+ .blob-btn:hover {
+	 color: @panna;
+	 border-radius: 30px;
+}
+ .blob-btn:hover:after {
+	 transition: all 0.3s;
+	 left: 0;
+	 top: 0;
+	 border-radius: 30px;
+}
+ .blob-btn__inner {
+	 z-index: -1;
+	 overflow: hidden;
+	 position: absolute;
+	 left: 0;
+	 top: 0;
+	 width: 100%;
+	 height: 100%;
+	 border-radius: 3vmax;
+	 background: @biscotto;
+}
+ .blob-btn__blobs {
+	 position: relative;
+	 display: block;
+	 height: 100%;
+	 filter: url('#goo');
+}
+ .blob-btn__blob {
+	 position: absolute;
+	 top: 0.2%;
+	 width: 25%;
+	 height: 100%;
+	 background: @cioccolato;
+	 border-radius: 100%;
+	 transform: translate3d(0, 150%, 0) scale(1.7);
+	 transition: transform 0.45s;
+}
+@supports (filter: url('#goo')) {
+	 transform: translate3d(0, 150%, 0) scale(1.4);
+}
+ .blob-btn__blob:nth-child(1) {
+	 left: 0%;
+	 transition-delay: 0s;
+}
+ .blob-btn__blob:nth-child(2) {
+	 left: 30%;
+	 transition-delay: 0.08s;
+}
+ .blob-btn__blob:nth-child(3) {
+	 left: 60%;
+	 transition-delay: 0.16s;
+}
+ .blob-btn__blob:nth-child(4) {
+	 left: 90%;
+	 transition-delay: 0.24s;
+}
+ .blob-btn:hover .blob-btn__blob {
+	 transform: translateZ(0) scale(1.7);
+}
+ @supports (filter: url('#goo')) {
+	 transform: translateZ(0) scale(1.4);
+}
+
+/* ######################################spinner animation######################################### */
+.lds-ellipsis {
+  display: inline-block;
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+.lds-ellipsis div {
+  position: absolute;
+  top: 33px;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: none;
+}
+.lds-ellipsis div:nth-child(1) {
+  left: 8px;
+  animation: lds-ellipsis1 0.6s infinite;
+  background-color: @panna;
+}
+.lds-ellipsis div:nth-child(2) {
+  left: 8px;
+  animation: lds-ellipsis2 0.6s infinite;
+  background-color:@panna;
+}
+.lds-ellipsis div:nth-child(3) {
+  left: 32px;
+  animation: lds-ellipsis2 0.6s infinite;
+  background-color: @panna;
+}
+.lds-ellipsis div:nth-child(4) {
+  left: 56px;
+  animation: lds-ellipsis3 0.6s infinite;
+  background-color: @panna;
+}
+@keyframes lds-ellipsis1 {
+  0% {
+    transform: scale(0);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes lds-ellipsis3 {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(0);
+  }
+}
+@keyframes lds-ellipsis2 {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(24px, 0);
+  }
+}

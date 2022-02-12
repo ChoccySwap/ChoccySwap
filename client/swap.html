@@ -1,0 +1,280 @@
+<!doctype html>
+<html translate="no">
+	<head>
+		<meta charset="utf-8"/>
+		<title>ChoccySwap</title>
+		<meta name="description" content="Swap or provide liquidity on Chromia"/>
+		<link rel="icon" href="img/logochoccy.svg">
+		<link rel=”mask-icon” href=”img/mask-icon.svg” color="#fff2da">
+		<link rel="apple-touch-icon" sizes="512x512" href="img/logo512.png"/>
+		<meta name="theme-color" content="#fff2da">
+		<link rel="manifest" href="manifest.json">
+		<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
+		<link rel="stylesheet" type="text/css" href="stylesheets/index.css">
+		<script src="scripts/bc.js"></script>
+    <script src="scripts/index.js"></script>
+		<script src="scripts/statics.js"></script>
+	</head>
+	<body onload="load()">
+		<noscript>You need to enable JavaScript to run this dapp.</noscript>
+		<div id="root">
+			<div id="header">
+				<div id="logo">
+					<a href="home.html"><img src="img/logochoccy.svg" class="jump" alt="ChoccySwap logo" width="30px"/></a>
+				</div>
+        <div id="nav-tab">
+	        <div id="title">
+		        <h1>ChoccySwap</h1>
+	        </div>
+			    <div id="nav">
+				    <a id="swap-nav-link" class="headerlinks mobilemove" href="javascript:ShowSwapDialog()">Swap</a>
+				    <a id="pool-nav-link" class="headerlinks mobilemove" href="javascript:ShowLiqDialog()">Pool</a>
+			    </div>
+        </div>
+				<div id="chainctl" data-tooltip="Current account: none">
+					<a id="vault-link">
+						<img id="jelly" src="img/jelly.svg" width="15px" hidden>
+						<span>Error connecting to Chromia Vault</span>
+						<img id="chainpic" src="img/chr-token-logo.svg" alt="chromia sidechain logo" width="50px"/>
+					</a>
+				</div>
+				<div id="mobilemenu" >
+					<div id="menutab">
+
+					</div>
+				</div>
+				<div id="hamburger" onclick="openMenu()">
+					<div>
+						<div>
+							<div class="hamburger1"><img src="img/choccake.svg" width="30px"></div>
+							<div class="hamburger2"><img src="img/redcake.svg" width="30px"></div>
+							<div class="hamburger3"><img src="img/choccake.svg" width="30px"></div>
+						</div>
+				</div>
+				</div>
+			</div>
+			<div id="body">
+				<div id="swap">
+
+						<div id="settings-menu" class="hidden"><!-- Needs to be hidden on start, should only show up when settings-button is clicked -->
+							<div id="slippage">
+								<p>Slippage</p>
+								<div id="slippage-input-section" class=" inputs">
+									<input class="settings-input" id="slippage-input" inputmode="decimal" autocomplete="off" autocorrect="off" type="text" pattern="^[0-9]*[.,]?[0-9]*$" placeholder="0.5" minlength="1" maxlength="4" spellcheck="false">
+									<span>%</span>
+								</div>
+							</div>
+							<div id="deadline">
+								<p>Cancel transaction after:</p>
+								<div id="deadline-input-section" class=" inputs">
+									<input class="settings-input" id="deadline-input" inputmode="numeric" autocomplete="off" autocorrect="off" type="text" pattern="^[0-9]*$" placeholder="20" minlength="1" maxlength="4" spellcheck="false">
+									<span>minutes</span>
+								</div>
+							</div>
+							<div id="risky">
+								<input type="checkbox" name="skip" id="skip">
+								<label for="skip">Skip confirmation (risky!)</label>
+							</div>
+						</div>
+
+					<div id="swap-settings">
+						<div class="sett-div">
+						</div>
+						<h2 id="swap-label">Swap</h2>
+						<div id="sett-div" class="sett-div">
+							<button id="settings-button" type="button" width="48px" height="48px">
+										<img src="img/cog.svg" alt="settings" width="40px" height="40px"/>
+							</button>
+						</div>
+					</div>
+					<div id="swap-boxes">
+						<div class="input-wrapper">
+							<p hidden>0</p>
+							<div id="swap-input" class="inputs">
+								<input tabindex="0" inputmode="decimal" autocomplete="off" autocorrect="off" type="text" pattern="^[0-9]*[.,]?[0-9]*$" placeholder="0.0" minlength="1" maxlength="79" spellcheck="false">
+								<button onclick="PickCoin(0)" type="button" class="token empty">
+									Pick a token
+								</button>
+							</div>
+						</div>
+						<div id="swap-switch">
+							<button onclick="SwitchInOut()" type="button">
+								<img src="img/switch.svg" alt="switch currencies" width="45px" />
+							</button>
+						</div>
+						<div class="input-wrapper">
+							<p hidden>0</p>
+							<div id="swap-output" class="inputs">
+								<input tabindex="1" inputmode="decimal" autocomplete="off" autocorrect="off" type="text" pattern="^[0-9]*[.,]?[0-9]*$" placeholder="0.0" minlength="1" maxlength="79" spellcheck="false">
+								<button onclick="PickCoin(1)" type="button" class="token empty">
+									Pick a token
+								</button>
+							</div>
+						</div>
+						<div class="label">
+							<p></p>
+						</div>
+						<div id="swap-button" class="buttons blob">
+						  <button id="swap-btn" class="blob-btn blob" type="button">
+								<p class="blob">Connect to Chromia Vault</p>
+						    <span class="blob-btn__inner blob">
+						      <span class="blob-btn__blobs blob">
+						        <span class="blob-btn__blob blob"></span>
+						        <span class="blob-btn__blob blob"></span>
+						        <span class="blob-btn__blob blob"></span>
+						        <span class="blob-btn__blob blob"></span>
+						      </span>
+						    </span>
+						  </button>
+						  <br/>
+						</div>
+					</div>
+				</div>
+				<div id="pool" class="hidden">
+					<div id="liq-settings">
+						<h2 id="liq-label">Liquidity</h2>
+					</div>
+					<div id="liq-boxes">
+						<div class="input-wrapper">
+							<p hidden>0</p>
+							<div id="liq-input" class="inputs">
+								<input tabindex="2" inputmode="decimal" autocomplete="off" autocorrect="off" type="text" pattern="^[0-9]*[.,]?[0-9]*$" placeholder="0.0" minlength="1" maxlength="79" spellcheck="false">
+								<button onclick="PickCoin(0)" type="button" class="token empty">
+									Pick a token
+								</button>
+							</div>
+						</div>
+						<div class="input-wrapper">
+							<p hidden>0</p>
+							<div id="liq-output" class="inputs">
+								<input tabindex="3" inputmode="decimal" autocomplete="off" autocorrect="off" type="text" pattern="^[0-9]*[.,]?[0-9]*$" placeholder="0.0" minlength="1" maxlength="79" spellcheck="false">
+								<button onclick="PickCoin(1)" type="button" class="token empty">
+									Pick a token
+								</button>
+							</div>
+						</div>
+						<div class="label">
+							<p></p>
+						</div>
+						<div id="liq-buttons">
+
+							<div id="liq-button" class="buttons blob">
+							  <button id="liq-btn" class="blob-btn blob" type="button">
+									<p class="blob">Connect to Chromia Vault</p>
+							    <span class="blob-btn__inner blob">
+							      <span class="blob-btn__blobs blob">
+							        <span class="blob-btn__blob blob"></span>
+							        <span class="blob-btn__blob blob"></span>
+							        <span class="blob-btn__blob blob"></span>
+							        <span class="blob-btn__blob blob"></span>
+							      </span>
+							    </span>
+							  </button>
+							  <br/>
+							</div>
+							<div id="add-liq" class="buttons blob liqs" hidden>
+							  <button id="liq-btn1" class="blob-btn blob" type="button">
+									<p class="blob">Add Liquidity</p>
+							    <span class="blob-btn__inner blob">
+							      <span class="blob-btn__blobs blob">
+							        <span class="blob-btn__blob blob"></span>
+							        <span class="blob-btn__blob blob"></span>
+							        <span class="blob-btn__blob blob"></span>
+							        <span class="blob-btn__blob blob"></span>
+							      </span>
+							    </span>
+							  </button>
+							  <br/>
+							</div>
+							<div id="remove-liq" class="buttons blob liqs" hidden>
+							  <button id="liq-btn2" class="blob-btn blob" type="button">
+									<p class="blob">Remove Liquidity</p>
+							    <span class="blob-btn__inner blob">
+							      <span class="blob-btn__blobs blob">
+							        <span class="blob-btn__blob blob"></span>
+							        <span class="blob-btn__blob blob"></span>
+							        <span class="blob-btn__blob blob"></span>
+							        <span class="blob-btn__blob blob"></span>
+							      </span>
+							    </span>
+							  </button>
+							  <br/>
+							</div>
+
+
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id="errdiv" class="err" hidden>
+				<p>Generic Error. Please contact the admin on telegram for details.</p>
+			</div>
+		</div>
+	</body>
+
+	<div id="coin-pick-bg" targetbutton="0" onclick="ClosePicker()" class="hidden">
+		<div id="coin-pick" onclick="abc(event)">
+			<div id="coin-search" class="inputs inline-sons">
+				<input inputmode="text" type="text" placeholder="Type a coin name, symbol or ID" spellcheck="false">
+				<img src="img/search.svg" alt="search image" width="30px" />
+			</div>
+			<div id="coins">
+				<div id="scrollbox">
+
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="alert-bg" targetbutton="0" onclick="closeAlert()" class="hidden">
+		<div id="alert" onclick="abc(event)">
+			<h3>Confirm transaction</h3>
+			<p>Once you click on this button, there's no going back!</p>
+			<div id="confirm" class="buttons blob liqs">
+				<button id="cnf-btn" class="blob-btn blob" type="button" onclick="confirmTx()">
+					<p class="blob">Confirm!</p>
+					<span class="blob-btn__inner blob">
+						<span class="blob-btn__blobs blob">
+							<span class="blob-btn__blob blob"></span>
+							<span class="blob-btn__blob blob"></span>
+							<span class="blob-btn__blob blob"></span>
+							<span class="blob-btn__blob blob"></span>
+						</span>
+					</span>
+				</button>
+				<br/>
+			</div>
+		</div>
+	</div>
+
+	<div id="wait-coins" hidden>
+		<div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
+	</div>
+
+	<div id="coin-prototype" class="coin-desc " hidden>
+		<div class="coin-pic">
+			<img src="" alt="" crossorigin="anonymous" width="70px" class=coin-icon>
+		</div>
+		<div class="coin-names">
+			<p class="symbol">SMBL</p>
+			<p>Coin Name</p>
+			<p class="id">0x0</p>
+		</div>
+		<div class="amount hidden">
+			<p hidden>0.0000</p>
+			<div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
+		</div>
+	</div>
+
+	<svg xmlns="http://www.w3.org/2000/svg" version="1.1">
+	  <defs>
+	    <filter id="goo">
+	      <feGaussianBlur in="SourceGraphic" result="blur" stdDeviation="10"></feGaussianBlur>
+	      <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 21 -7" result="goo"></feColorMatrix>
+	      <feBlend in2="goo" in="SourceGraphic" result="mix"></feBlend>
+	    </filter>
+	  </defs>
+	</svg>
+
+</html>

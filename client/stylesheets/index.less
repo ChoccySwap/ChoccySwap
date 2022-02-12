@@ -1,0 +1,177 @@
+@rosso: #cd4d46;
+@biscotto: #d08d4d;
+@nero: #351a1b;
+@bianco: #fff2da;
+@panna: #fffdd2;
+@cioccolato: #8a5335;
+
+@import "animations.less";
+@import "swapliq.less";
+@import "coin-pick.less";
+
+@font-face {
+    font-family: 'poetsenone';
+    src: url('../fonts/poetsenone-webfont.woff2') format('woff2'),
+         url('../fonts/poetsenone-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+* {
+  font-family: 'poetsenone';
+}
+
+body{
+  margin: 0;
+  width: 100%; height: 100%;
+  position: absolute;
+  background-image: url("../img/bg.svg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-color: @panna;
+  background-attachment: fixed;
+  overflow: hidden;
+  font-size: clamp(6px, 0.8vw, 100px);
+}
+
+.err{
+  background-color:  @nero;
+  color: @rosso;
+  border-radius: 2vmax;
+  padding: 1%;
+  position: absolute;
+  left: 1%; top:101vh;
+  transform: translate(0, 0);
+  transition: transform 0.7s ease;
+  &.active{
+    transform: translate(0, -27vh);
+    &.inactive{
+        transform: translate(0, 0);
+    }
+  }
+  &.success{
+    color: #57cd46;
+  }
+}
+
+button{
+  background-color: @biscotto;
+  border: none;
+}
+
+#root{
+  display:flex;
+  width:100%;
+  height: 100%;
+  position: absolute;
+  flex-flow: column;
+}
+
+#header{
+  flex: 0 1 25%;
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 2%;
+  #logo{
+    flex: 1 1 23%;
+    a {
+      position: absolute;
+      top: 3.5%;
+      left: 2%;
+      background-color: #bd7607;
+      border-radius: 50%;
+      border: @panna solid 3px;
+      height: 4vmax;
+      width: 4vmax;
+      display: inline-block;
+      img{
+        position:relative;
+        height: 66%;
+        width: 66%;
+        left: -85%;
+        top: -85%;
+        padding: 100%;
+      }
+    }
+  }
+  #nav-tab {
+    flex: 1 1 40%;
+    #title{
+      text-align: center;
+      font-size: 350%;
+      h1{
+        margin: 0;
+        color: @nero;
+        text-shadow: -3px 3px 0 @biscotto,
+                      3px 3px 0 @biscotto,
+                     3px -3px 0 @biscotto,
+                    -3px -3px 0 @biscotto,
+                     3px 0 0 @biscotto,
+                     -3px 0 0 @biscotto,
+                    0 3px 0 @biscotto,
+                    0 -3px 0 @biscotto;
+      }
+    }
+    #nav{
+      display: flex;
+      justify-content: center;
+      #swap-nav-link {  margin-right: 3em;}
+      a{
+        color:@nero;
+        text-decoration: none;
+        font-size: 200%;
+      }
+    }
+  }
+  #chainctl{
+    flex: 1 1 23%;
+    #vault-link {
+      font-size: 164%;
+      color: @nero;
+      width: 100%;
+      display: flex;
+      justify-content: flex-end;
+      height: 49%;
+      #jelly{
+        margin-top: 9.5%;
+        height: 1vmax;
+      }
+      #chainpic {
+        margin-right: 2%;
+        width: 3vmax;
+        height: 3vmax;
+        margin-top: 6%;
+      }
+      span {margin: 8% 2% 2% 0.5%}
+    }
+  }
+}
+
+[data-tooltip]:before {
+    /* needed - do not touch */
+    content: attr(data-tooltip);
+    position: absolute;
+    opacity: 0;
+
+    /* customizable */
+    transition: all 0.15s ease;
+    padding: 10px;
+    color: #333;
+    border-radius: 10px;
+    box-shadow: 2px 2px 1px @nero;
+    margin: 4vh 0 0 8vw;
+}
+
+[data-tooltip].connected:hover:before {
+    margin-left: -9vw;
+}
+
+[data-tooltip]:hover:before {
+    /* needed - do not touch */
+    opacity: 1;
+
+    /* customizable */
+    background: @biscotto;
+    margin-top: 10vh;
+    margin-left: 8vw;
+}
