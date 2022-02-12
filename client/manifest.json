@@ -1,0 +1,11 @@
+{
+    "name": "ChoccySwap",
+    "short_name": "Choccy",
+    "icons": [{
+        "src": "img/logo512.png",
+        "sizes": "512x512"
+    }],
+    "background_color": "#fffdd2",
+    "theme_color": "#fff2da",
+    "display": "fullscreen"
+}
